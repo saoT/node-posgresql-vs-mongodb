@@ -14,10 +14,6 @@ const Debit = {
     type: String,
     required: true
   },
-  valid_date: {
-    type: Date,
-    required: true
-  },
   owner_id: {
     type: Schema.Types.ObjectId,
     required: true,

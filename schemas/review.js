@@ -13,7 +13,7 @@ const Review = {
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }
+  },
   sitter_id: {
     type: Schema.Types.ObjectId,
     ref: 'Sitter'
