@@ -86,14 +86,14 @@ dbNoSQL.then( (db) => {
   // var newUser = new User({user_id: mongoose.Types.ObjectId(), name: 'Maia', credentials: 'password1'});
   // newUser.save()
   // .then( (user) => {
-  //   var newSitter = new Sitter({sitter_id: mongoose.Types.ObjectId(), description: 'J\'ai un BTS gardien de Gecko', user_id: user.user_id});
+  //   var newSitter = new Sitter({sitter_id: mongoose.Types.ObjectId(), description: 'J\'ai un BTS gardien de Gecko', user_id: user._id});
   //   newSitter.save()
   //   .then( sitter => {
-  //     var newCredit = new Credit({credit_id: mongoose.Types.ObjectId(), iban: 'FR34-I3F5-AAP2-1890', swift: 'BK2266-89', sitter_id: sitter.sitter_id});
+  //     var newCredit = new Credit({credit_id: mongoose.Types.ObjectId(), iban: 'FR34-I3F5-AAP2-1890', swift: 'BK2266-89', sitter_id: sitter._id});
   //     newCredit.save();
-  //     var newSpace = new Space({space_id: mongoose.Types.ObjectId(), name: 'Aquarium', description: 'Cet aquarium fait 2m2 et peut recevoir un gecko de taille moyenne', sitter_id: sitter.sitter_id});
+  //     var newSpace = new Space({space_id: mongoose.Types.ObjectId(), name: 'Aquarium', description: 'Cet aquarium fait 2m2 et peut recevoir un gecko de taille moyenne', sitter_id: sitter._id});
   //     newSpace.save();
-  //     var newReview = new Review({review_id: mongoose.Types.ObjectId(), rating: 4, content: 'Mon Gecko était content',user_id: user.user_id, sitter_id: sitter.sitter_id});
+  //     var newReview = new Review({review_id: mongoose.Types.ObjectId(), rating: 4, content: 'Mon Gecko était content',user_id: user.user_id, sitter_id: sitter._id});
   //     newReview.save();
   //   })
   //   .catch(e => console.log('error on sitter 1 save', e))
@@ -103,15 +103,15 @@ dbNoSQL.then( (db) => {
   // var otherNewUser = new User({user_id: mongoose.Types.ObjectId(), name: 'John', credentials: 'password2'});
   // otherNewUser.save()
   // .then( (user) => {
-  //   var newOwner = new Owner({owner_id: mongoose.Types.ObjectId(), description: 'J\'ai 2 chats et 3 chiens', user_id: user.user_id});
+  //   var newOwner = new Owner({owner_id: mongoose.Types.ObjectId(), description: 'J\'ai 2 chats et 3 chiens', user_id: user._id});
   //   newOwner.save()
   //   .then( owner => {
-  //     var newDebit = new Debit({debit_id: mongoose.Types.ObjectId(), card_number: '2435-4576-6730-6736', crypto: '657', owner_id: owner.owner_id});
+  //     var newDebit = new Debit({debit_id: mongoose.Types.ObjectId(), card_number: '2435-4576-6730-6736', crypto: '657', owner_id: owner._id});
   //     newDebit.save();
   //     var newPet = new Pet({pet_id: mongoose.Types.ObjectId(), name: 'Coco', owner_id: owner.owner_id});
   //     newPet.save()
   //     .then( (pet) => {
-  //       var newReview = new Review({review_id: mongoose.Types.ObjectId(), rating: 4, content: 'Mon Gecko était content',user_id: user.user_id, pet_id: pet.pet_id});
+  //       var newReview = new Review({review_id: mongoose.Types.ObjectId(), rating: 4, content: 'Mon Gecko était content',user_id: user._id, pet_id: pet._id});
   //       newReview.save();
   //     })
   //     .catch(e => console.log('error on pet 2 save', e));
@@ -120,6 +120,19 @@ dbNoSQL.then( (db) => {
   // })
   // .catch(e => console.log('error on user 2 save', e));
 
+  User.aggregate([
+    { $limit: 2 },
+    { $sort: { name: -1} }
+  ]).then(users => {
+    console.log(users);
+  });
+
+  Owner.find()
+  .populate('user_id')
+  .exec(function (err, owner) {
+    if (!err) console.log(owner[0]);
+    else console.log(err);
+  });
 
 })
 .catch(e => console.log(e));
